@@ -25,10 +25,10 @@ public class DemoApplication implements CommandLineRunner {
 
 
     
-    @Override
+@Override
 public void run(String... args) throws Exception {
     Set<String> a = loadWords(Paths.get(fileA));
-    Path best = null;
+    List<Path> best = new ArrayList<>();
     double top = -1;
 
     for (Path p : Files.newDirectoryStream(Paths.get(poolDir))) {
@@ -36,14 +36,22 @@ public void run(String... args) throws Exception {
         Set<String> b = loadWords(p);
         double s = jaccard(a, b) * 100;
         System.out.printf("%s → %.2f%%%n", p.getFileName(), s);
+
         if (s > top) {
             top = s;
-            best = p;
+            best.clear();
+            best.add(p);
+        } else if (s == top) {
+            best.add(p);
         }
     }
 
-    if (best != null) System.out.printf("Best match: %s (%.2f%%)%n", best.getFileName(), top);
+    if (!best.isEmpty()) {
+        System.out.printf("Best match (%.2f%%):%n", top);
+        for (Path p : best) System.out.println("- " + p.getFileName());
+    }
 }
+
 
 
 
