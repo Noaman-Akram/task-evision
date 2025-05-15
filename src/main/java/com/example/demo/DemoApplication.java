@@ -58,16 +58,17 @@ public void run(String... args) throws Exception {
 
     
 private Set<String> loadWords(Path p) {
-    String text = "";
     try {
-        text = Files.readString(p);
-    } catch (Exception ignored) {}
-
-    return Arrays.stream(text.split("[^A-Za-z]+"))
-        .filter(w -> !w.isEmpty())
-        .map(String::toLowerCase)
-        .collect(Collectors.toSet());
+        return Files.lines(p)
+            .flatMap(line -> Arrays.stream(line.split("[^A-Za-z]+")))
+            .filter(w -> !w.isEmpty())
+            .map(String::toLowerCase)
+            .collect(Collectors.toSet());
+    } catch (Exception e) {
+        return Set.of();
+    }
 }
+
 
 
 
