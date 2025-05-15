@@ -1,0 +1,1 @@
+Theecho THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG > data/pool/uppercase.txt! quick,,, brown... dog--- fox??? jumps/// lazy;;; over:::!
